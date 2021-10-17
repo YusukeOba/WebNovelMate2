@@ -1,0 +1,2 @@
+rootProject.name = "webnovelmate2"
+include ':app'
