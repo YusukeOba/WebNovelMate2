@@ -1,8 +1,7 @@
 package tokyo.oversoftware.webnovelmate.ui.screens
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.material.Button
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.livedata.observeAsState
@@ -12,24 +11,37 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import tokyo.oversoftware.webnovelmate.commons.AppState
+import tokyo.oversoftware.webnovelmate.commons.rememberAppState
 import tokyo.oversoftware.webnovelmate.data.entities.Novel
 import tokyo.oversoftware.webnovelmate.data.entities.NovelMeta
+import tokyo.oversoftware.webnovelmate.ui.custom.GeneralTopAppBar
 import java.util.*
 
 @Composable
-fun HomeScreen(nav: NavController, homeViewModel: HomeViewModel = viewModel()) {
+fun HomeScreen(
+    appState: AppState,
+    homeViewModel: HomeViewModel = viewModel(),
+) {
     val novels = homeViewModel.novels.observeAsState().value
-    Column() {
-        Text(text = "Reading ${novels?.first()?.title ?: "nothing"}")
-        Button(onClick = {
-            nav.navigate("detail")
-        }) {
-            Text(text = "go detail")
-        }
-    }
-
     LaunchedEffect(key1 = Unit) {
         homeViewModel.getNovels()
+    }
+
+    Scaffold(
+        scaffoldState = appState.scaffoldState,
+        topBar = {
+            GeneralTopAppBar(navController = appState.navController, title = "本棚", isModal = false)
+        }
+    ) {
+        Column() {
+            Text(text = "Reading ${novels?.first()?.title ?: "nothing"}")
+            Button(onClick = {
+                appState.navController.navigate("detail")
+            }) {
+                Text(text = "go detail")
+            }
+        }
     }
 }
 
@@ -86,5 +98,5 @@ class HomeViewModel : ViewModel() {
 @Preview
 @Composable
 fun PreviewHomeScreen() {
-    HomeScreen(nav = rememberNavController())
+    HomeScreen(rememberAppState())
 }
