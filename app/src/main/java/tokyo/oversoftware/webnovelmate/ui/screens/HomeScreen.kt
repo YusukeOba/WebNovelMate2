@@ -12,6 +12,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import tokyo.oversoftware.webnovelmate.commons.AppState
+import tokyo.oversoftware.webnovelmate.commons.AppTheme
 import tokyo.oversoftware.webnovelmate.commons.rememberAppState
 import tokyo.oversoftware.webnovelmate.data.entities.Novel
 import tokyo.oversoftware.webnovelmate.data.entities.NovelMeta
@@ -98,5 +99,7 @@ class HomeViewModel : ViewModel() {
 @Preview
 @Composable
 fun PreviewHomeScreen() {
-    HomeScreen(rememberAppState())
+    AppTheme {
+        HomeScreen(rememberAppState())
+    }
 }
